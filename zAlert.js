@@ -43,7 +43,7 @@ const styles = `
 }
 `
 
-class zAlert {
+class ZAlert {
     constructor() {
         let root = document.createElement('div')
         let stylesheet = document.createElement('style')
@@ -97,4 +97,4 @@ class zAlert {
     }
 }
 
-window.zalert = new zAlert()
+window.zAlert = new ZAlert()
