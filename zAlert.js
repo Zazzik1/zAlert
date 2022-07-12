@@ -80,6 +80,7 @@ class ZAlert {
             root.style.opacity = 0
             setTimeout(() => {
                 root.style.display = 'none'
+                root.innerHTML = ''
                 resolve()
             }, 200)
         })
