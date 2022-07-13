@@ -1,3 +1,4 @@
+// @Author: Zazzik1, https://github.com/Zazzik1
 (() => {
     const styles = `
     .zAlert {
