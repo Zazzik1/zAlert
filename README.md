@@ -24,4 +24,9 @@ await zAlert.show(`
   <div>Hello to zAlert</div>
   <input type="text" />
 `)
+
+await zAlert.show(`Custom styles`, {
+  bgColor: '#3e6370',
+  color: '#e0e0e0',
+})
 ```
