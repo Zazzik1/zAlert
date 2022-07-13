@@ -6,7 +6,7 @@ Simple Alert in JS
 <script src="zAlert.js"></script>
 ```
 ```js
-zAlert.show(htmlString, options)
+zAlert.show(htmlStringOrElement, options)
 ```
 
 ### Supported options:
@@ -18,15 +18,23 @@ bgColor|string|`white`|Background color
 color|string|`rgb(40, 40, 40)`|Text color
 borderColor|string|`rgb(220, 220, 220)`|Border color
 
-### Example:
+### Examples:
 ```js
 await zAlert.show(`
   <div>Hello to zAlert</div>
   <input type="text" />
 `)
+```
 
+```js
 await zAlert.show(`Custom styles`, {
   bgColor: '#3e6370',
   color: '#e0e0e0',
 })
+```
+
+```js
+let input = document.createElement('input')
+input.type = 'date'
+await zAlert.show(input)
 ```
