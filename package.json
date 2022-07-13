@@ -1,12 +1,12 @@
 {
   "name": "zalert",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "1.0.1",
+  "description": "Simple Alert in JS",
+  "main": "zAlert.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Zazzik1",
   "license": "ISC"
 }

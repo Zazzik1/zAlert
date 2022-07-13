@@ -14,6 +14,7 @@ Option|Type|Default|Description|
 -|-|-|-
 closeButton|boolean|`true`|Used to hide the close button
 duration|number|`300`|Duration of the show/hide animations [ms]
+hideOnBlur|boolean|`true`|States if alert should be closed when clicked outside of it
 bgColor|string|`white`|Background color
 color|string|`rgb(40, 40, 40)`|Text color
 borderColor|string|`rgb(220, 220, 220)`|Border color

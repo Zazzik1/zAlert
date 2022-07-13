@@ -4,14 +4,14 @@
         position: fixed;
         left: 50%;
         top: 50%;
-        transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%) scale(1.2);
         
         display: none;
         opacity: 0;
     
         min-width: 100px;
         min-height: 70px;
-        transition: opacity 0.3s ease;
+        transition: opacity 0.3s ease, transform 0.3s ease;
         background-color: white;
         color: rgb(40, 40, 40);
         padding: 32px;
@@ -48,32 +48,30 @@
         constructor() {
             this.timeout = 300 // [ms]
             let root = document.createElement('div')
+            this.root = root
             let stylesheet = document.createElement('style')
             stylesheet.innerHTML = styles
             root.classList.add('zAlert')
             
             const body = document.querySelector('body')
-            // body.addEventListener('click', e => {
-            //     let x = e.clientX
-            //     let y = e.clientY
-            //     let top = root.clientTop
-            //     let left = root.clientLeft
-            //     if (x < left || y < top || x > (root.clientWidth + left) || y > (root.clientHeight + top)) this.hide()
-            // })
             body.appendChild(stylesheet)
             body.appendChild(root)
     
-            this.root = root
         }
         show(htmlStringOrElement, options = {}) {
             return new Promise((resolve) => {
                 const { root } = this
+                this.onBlurListener = e => {
+                    if (!e.path.includes(root)) this.hide()
+                }
+                if (options.hideOnBlur ?? true) window.addEventListener('click', this.onBlurListener)
                 this.timeout = options.duration ?? 300
-                root.style.transition = `opacity ${this.timeout}ms ease`
+                root.style.transition = `opacity ${this.timeout}ms ease, transform ${this.timeout}ms ease`
                 this.#render(htmlStringOrElement, options)
                 root.style.display = 'block'
                 setTimeout(() => {
                     root.style.opacity = 1
+                    root.style.transform = 'translate(-50%, -50%) scale(1)'
                     resolve()
                 }, this.timeout)
             })
@@ -81,7 +79,9 @@
         hide() {
             return new Promise((resolve) => {
                 const { root } = this
+                window.removeEventListener('click', this.onBlurListener)
                 root.style.opacity = 0
+                root.style.transform = 'translate(-50%, -50%) scale(1.2)'
                 setTimeout(() => {
                     root.style.display = 'none'
                     root.innerHTML = ''
