@@ -45,6 +45,7 @@ const styles = `
 
 class ZAlert {
     constructor() {
+        this.timeout = 300 // [ms]
         let root = document.createElement('div')
         let stylesheet = document.createElement('style')
         stylesheet.innerHTML = styles
@@ -66,12 +67,14 @@ class ZAlert {
     show(htmlString, options = {}) {
         return new Promise((resolve) => {
             const { root } = this
+            this.timeout = options.duration ?? 300
+            root.style.transition = `opacity ${this.timeout}ms ease`
             this.#render(htmlString, options)
             root.style.display = 'block'
             setTimeout(() => {
                 root.style.opacity = 1
                 resolve()
-            }, 200)
+            }, this.timeout)
         })
     }
     hide() {
@@ -82,12 +85,15 @@ class ZAlert {
                 root.style.display = 'none'
                 root.innerHTML = ''
                 resolve()
-            }, 200)
+            }, this.timeout)
         })
     }
     #render(htmlString, options) {
         const { root } = this
         root.innerHTML = ''
+        root.style.backgroundColor = options.bgColor ?? null // undefined makes style persistent while null clears it
+        root.style.color = options.color ?? null
+        root.style.borderColor = options.borderColor ?? null
         if (options.closeButton ?? true) {
             const closeButton = document.createElement('div')
             closeButton.classList.add('zAlert_close')
