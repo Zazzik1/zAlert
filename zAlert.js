@@ -63,10 +63,10 @@ class ZAlert {
 
         this.root = root
     }
-    show(htmlString) {
+    show(htmlString, options = {}) {
         return new Promise((resolve) => {
             const { root } = this
-            this.#render(htmlString)
+            this.#render(htmlString, options)
             root.style.display = 'block'
             setTimeout(() => {
                 root.style.opacity = 1
@@ -85,15 +85,17 @@ class ZAlert {
             }, 200)
         })
     }
-    #render(htmlString) {
+    #render(htmlString, options) {
         const { root } = this
         root.innerHTML = ''
-        const closeButton = document.createElement('div')
-        closeButton.classList.add('zAlert_close')
-        closeButton.addEventListener('click', e => this.hide())
+        if (options.closeButton ?? true) {
+            const closeButton = document.createElement('div')
+            closeButton.classList.add('zAlert_close')
+            closeButton.addEventListener('click', e => this.hide())
+            root.appendChild(closeButton)
+        }
         const container = document.createElement('div')
         container.innerHTML = htmlString
-        root.appendChild(closeButton)
         root.appendChild(container)
     }
 }
