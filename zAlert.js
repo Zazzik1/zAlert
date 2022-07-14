@@ -7,41 +7,64 @@
         top: 50%;
         transform: translate(-50%, -50%) scale(1.2);
         
-        display: none;
         opacity: 0;
+        display: none;
+        flex-direction: column;
     
-        min-width: 100px;
-        min-height: 70px;
+        min-width: 200px;
+        min-height: 90px;
         transition: opacity 0.3s ease, transform 0.3s ease;
         background-color: white;
         color: rgb(40, 40, 40);
-        padding: 32px;
-        border-radius: 8px;
+        border-radius: 5px;
         border: 1px solid rgb(220, 220, 220);
         font-size: 20px;
         font-family: Arial;
-        z-index: 10;
+        z-index: 999;
+        box-shadow: 0 0 12px rgb(0 0 0 / 16%), inset -1px -1px 2px #00000021, inset 1px 1px 2px #ffffff24;
     }
     .zAlert .zAlert_close {
-        position: absolute;
-        right: 8px;
-        top: 12px;
         cursor: pointer;
+        position: relative;
+        box-sizing: border-box;
+        padding: 16px 20px;
+        margin-top: -1px;
+        margin-right: -1px;
+        border-radius: 0 5px 0 0;
+        transition: background-color 0.2s ease;
     }
-    .zAlert .zAlert_close::before,
-    .zAlert .zAlert_close::after {
+    .zAlert .zAlert_close:hover {
+        background-color: #dc6666;
+    }
+    .zAlert .zAlert_close_container {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        border-bottom: 1px solid rgb(220, 220, 220);
+    }
+    .zAlert .zAlert_close_container .zAlert_close::before,
+    .zAlert .zAlert_close_container .zAlert_close::after {
         content: '';
         height: 2px;
-        width: 12px;
-        background-color: black;
+        width: 16px;
+        background-color: #5a5a5a;
         position: absolute;
-        right: 0;
-        top: 0;
-        transform: rotate(45deg);
+        left: 50%;
+        top: 50%;
+        transition: background-color 0.2s ease;
+        transform: translate(-50%, -50%) rotate(45deg);
     }
-    .zAlert .zAlert_close::after {
-        bottom: 0;
-        transform: rotate(-45deg);
+    .zAlert .zAlert_close_container .zAlert_close::after {
+        transform: translate(-50%, -50%) rotate(-45deg);
+    }
+    .zAlert .zAlert_close:hover::before,
+    .zAlert .zAlert_close:hover::after {
+        background-color: white;
+    }
+    .zAlert .zAlert_container {
+        padding: 8px;
+        flex-grow: 1;
+        min-height: 80px;
     }
     `
     
@@ -69,7 +92,7 @@
                 this.timeout = options.duration ?? 300
                 root.style.transition = `opacity ${this.timeout}ms ease, transform ${this.timeout}ms ease`
                 this.#render(htmlStringOrElement, options)
-                root.style.display = 'block'
+                root.style.display = 'flex'
                 setTimeout(() => {
                     root.style.opacity = 1
                     root.style.transform = 'translate(-50%, -50%) scale(1)'
@@ -97,12 +120,16 @@
             root.style.color = options.color ?? null
             root.style.borderColor = options.borderColor ?? null
             if (options.closeButton ?? true) {
+                const closeButtonContainer = document.createElement('div')
+                closeButtonContainer.classList.add('zAlert_close_container')
                 const closeButton = document.createElement('div')
                 closeButton.classList.add('zAlert_close')
                 closeButton.addEventListener('click', e => this.hide())
-                root.appendChild(closeButton)
+                closeButtonContainer.appendChild(closeButton)
+                root.appendChild(closeButtonContainer)
             }
             const container = document.createElement('div')
+            container.classList.add('zAlert_container')
             if (htmlStringOrElement instanceof HTMLElement) {
                 container.appendChild(htmlStringOrElement)
             } else container.innerHTML = htmlStringOrElement
