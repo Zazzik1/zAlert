@@ -11,8 +11,8 @@
         display: none;
         flex-direction: column;
     
-        min-width: 200px;
-        min-height: 90px;
+        min-width: 300px;
+        min-height: 200px;
         transition: opacity 0.3s ease, transform 0.3s ease;
         background-color: white;
         color: rgb(40, 40, 40);
@@ -45,7 +45,7 @@
     .zAlert .zAlert_close_container .zAlert_close::before,
     .zAlert .zAlert_close_container .zAlert_close::after {
         content: '';
-        height: 2px;
+        height: 1px;
         width: 16px;
         background-color: #5a5a5a;
         position: absolute;
