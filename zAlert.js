@@ -1,5 +1,6 @@
 // @Author: Zazzik1, https://github.com/Zazzik1
 (() => {
+    const sleep = time => new Promise(resolve => setTimeout(resolve, time))
     const styles = `
     .zAlert {
         position: fixed;
@@ -83,7 +84,7 @@
     
         }
         show(htmlStringOrElement, options = {}) {
-            return new Promise((resolve) => {
+            return new Promise(async (resolve) => {
                 const { root } = this
                 this.onBlurListener = e => {
                     if (!e.path.includes(root)) this.hide()
@@ -93,24 +94,23 @@
                 root.style.transition = `opacity ${this.timeout}ms ease, transform ${this.timeout}ms ease`
                 this.#render(htmlStringOrElement, options)
                 root.style.display = 'flex'
-                setTimeout(() => {
-                    root.style.opacity = 1
-                    root.style.transform = 'translate(-50%, -50%) scale(1)'
-                    resolve()
-                }, this.timeout)
+                await sleep(1) // without this animation doesn't work
+                root.style.opacity = 1
+                root.style.transform = 'translate(-50%, -50%) scale(1)'
+                await sleep(this.timeout)
+                resolve()
             })
         }
         hide() {
-            return new Promise((resolve) => {
+            return new Promise(async (resolve) => {
                 const { root } = this
                 window.removeEventListener('click', this.onBlurListener)
                 root.style.opacity = 0
                 root.style.transform = 'translate(-50%, -50%) scale(1.2)'
-                setTimeout(() => {
-                    root.style.display = 'none'
-                    root.innerHTML = ''
-                    resolve()
-                }, this.timeout)
+                await sleep(this.timeout)
+                root.style.display = 'none'
+                root.innerHTML = ''
+                resolve()
             })
         }
         #render(htmlStringOrElement, options) {
