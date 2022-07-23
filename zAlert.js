@@ -87,7 +87,7 @@
             return new Promise(async (resolve) => {
                 const { root } = this
                 this.onBlurListener = e => {
-                    if (!e.path.includes(root)) this.hide()
+                    if (!e.composedPath().includes(root)) this.hide()
                 }
                 if (options.hideOnBlur ?? true) window.addEventListener('click', this.onBlurListener)
                 this.timeout = options.duration ?? 300
