@@ -68,9 +68,33 @@
         min-height: 80px;
     }
     `
+
+    class Renderer {
+        constructor(container) {
+            this.container = container
+        }
+        render(content) {
+            throw new Error('this method must be overwritten')
+        }
+    }
+
+    class HTMLElementRenderer extends Renderer {
+        render(element) {
+            this.container.appendChild(element)
+        }
+    }
     
+    class HTMLStringRenderer extends Renderer {
+        render(htmlString) {
+            this.container.innerHTML = htmlString
+        }
+    }
+
+    let zAlertInstance = null
+
     class ZAlert {
         constructor() {
+            if (zAlertInstance instanceof ZAlert) return instance; // singleton
             this.timeout = 300 // [ms]
             let root = document.createElement('div')
             this.root = root
@@ -81,7 +105,6 @@
             const body = document.querySelector('body')
             body.appendChild(stylesheet)
             body.appendChild(root)
-    
         }
         show(htmlStringOrElement, options = {}) {
             return new Promise(async (resolve) => {
@@ -130,12 +153,14 @@
             }
             const container = document.createElement('div')
             container.classList.add('zAlert_container')
-            if (htmlStringOrElement instanceof HTMLElement) {
-                container.appendChild(htmlStringOrElement)
-            } else container.innerHTML = htmlStringOrElement
+
+            const renderer = htmlStringOrElement instanceof HTMLElement ? HTMLElementRenderer : HTMLStringRenderer
+            const rendererInstance = new renderer(container)
+            rendererInstance.render(htmlStringOrElement)
             root.appendChild(container)
         }
     }
     
-    window.zAlert = new ZAlert()
+    zAlertInstance = new ZAlert()
+    window.zAlert = zAlertInstance
 })()
