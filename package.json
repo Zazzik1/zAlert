@@ -4,9 +4,25 @@
   "description": "Simple Alert in JS",
   "main": "zAlert.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:watch": "jest --watchAll"
   },
   "keywords": [],
   "author": "Zazzik1",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zazzik1/zAlert.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Zazzik1/zAlert/issues"
+  },
+  "homepage": "https://github.com/Zazzik1/zAlert#readme",
+  "devDependencies": {
+    "jest": "^29.5.0",
+    "jest-environment-jsdom": "^29.5.0"
+  },
+  "jest": {
+    "testEnvironment": "jsdom"
+  }
 }
