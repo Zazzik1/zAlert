@@ -83,7 +83,29 @@ describe('zAlert', () => {
             await zAlert.hide();
             expect(getContainer().style.opacity).toBe('0');
             expect(getContainer().style.display).toBe('none');
-            expect(getContainer().textContent).toBe('')
+            expect(getContainer().textContent).toBe('');
+            done();
+        })();
+    });
+
+    test('close button should hide alert', (done) => {
+        (async () => {
+            await zAlert.show();
+            const hideMock = jest.fn(() => Promise.resolve())
+            jest.spyOn(zAlert, 'hide').mockImplementationOnce(hideMock)
+            getContainer().querySelector('.zAlert_close').click()
+            expect(hideMock).toBeCalled()
+            done();
+        })();
+    });
+
+    test('clicking outside of alert should hide alert', (done) => {
+        (async () => {
+            await zAlert.show();
+            const hideMock = jest.fn(() => Promise.resolve())
+            jest.spyOn(zAlert, 'hide').mockImplementationOnce(hideMock)
+            document.body.click()
+            expect(hideMock).toBeCalled()
             done();
         })();
     });
