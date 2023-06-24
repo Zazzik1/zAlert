@@ -91,10 +91,10 @@ describe('zAlert', () => {
     test('close button should hide alert', (done) => {
         (async () => {
             await zAlert.show();
-            const hideMock = jest.fn(() => Promise.resolve())
-            jest.spyOn(zAlert, 'hide').mockImplementationOnce(hideMock)
-            getContainer().querySelector('.zAlert_close').click()
-            expect(hideMock).toBeCalled()
+            const hideMock = jest.fn(() => Promise.resolve());
+            jest.spyOn(zAlert, 'hide').mockImplementationOnce(hideMock);
+            getContainer().querySelector('.zAlert_close').click();
+            expect(hideMock).toBeCalled();
             done();
         })();
     });
@@ -102,10 +102,10 @@ describe('zAlert', () => {
     test('clicking outside of alert should hide alert', (done) => {
         (async () => {
             await zAlert.show();
-            const hideMock = jest.fn(() => Promise.resolve())
-            jest.spyOn(zAlert, 'hide').mockImplementationOnce(hideMock)
-            document.body.click()
-            expect(hideMock).toBeCalled()
+            const hideMock = jest.fn(() => Promise.resolve());
+            jest.spyOn(zAlert, 'hide').mockImplementationOnce(hideMock);
+            document.body.click();
+            expect(hideMock).toBeCalled();
             done();
         })();
     });
