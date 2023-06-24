@@ -74,4 +74,17 @@ describe('zAlert', () => {
             })();
         });
     });
+
+    test('show() method should make alert visible, whereas hide() method should hide it and clear the alert', (done) => {
+        (async () => {
+            await zAlert.show('');
+            expect(getContainer().style.opacity).toBe('1');
+            expect(getContainer().style.display).not.toBe('none');
+            await zAlert.hide();
+            expect(getContainer().style.opacity).toBe('0');
+            expect(getContainer().style.display).toBe('none');
+            expect(getContainer().textContent).toBe('')
+            done();
+        })();
+    });
 });
