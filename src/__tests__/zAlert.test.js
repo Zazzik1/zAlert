@@ -26,36 +26,40 @@ describe('zAlert', () => {
     });
 
     describe('show() method', () => {
-        test('should render strings', () => {
+        const renderedArea = getContainer('div.zAlert_container');
+        test('should render strings', (done) => {
             const text_A = 'example text';
             const text_B = 'second example text';
             const text_C = 'third example text';
 
             (async () => {
                 await zAlert.show(text_A);
-                expect(getContainer().innerHTML.includes(text_A)).toBe(true);
+                expect(renderedArea.textContent.includes(text_A)).toBe(true);
                 await zAlert.show(text_B);
-                expect(getContainer().innerHTML.includes(text_B)).toBe(true);
+                expect(renderedArea.textContent.includes(text_B)).toBe(true);
                 await zAlert.show(text_C);
-                expect(getContainer().innerHTML.includes(text_C)).toBe(true);
+                expect(renderedArea.textContent.includes(text_C)).toBe(true);
+                done();
             })();
         });
 
-        test('should render numbers', () => {
+        test('should render numbers', (done) => {
             const num_A = 123456;
             const num_B = 654321;
 
             (async () => {
                 await zAlert.show(num_A);
-                expect(getContainer().innerHTML.includes(num_A)).toBe(true);
+                expect(renderedArea.textContent.includes(num_A)).toBe(true);
                 await zAlert.show(num_B);
-                expect(getContainer().innerHTML.includes(num_B)).toBe(true);
+                expect(renderedArea.textContent.includes(num_B)).toBe(true);
+                done();
             })();
         });
 
-        test('should render HTMLElement', () => {
+        test('should render HTMLElement', (done) => {
             const element_A = document.createElement('div');
             const element_B = document.createElement('input');
+            element_A.setAttribute('data-testid', 'rendered-div');
             const inputValue = 'example value';
             element_B.value = inputValue;
             element_A.appendChild(element_B);
@@ -63,9 +67,10 @@ describe('zAlert', () => {
             (async () => {
                 await zAlert.show(element_A);
 
-                const renderedInput = getContainer().querySelector('input');
+                const renderedInput = getContainer().querySelector('[data-testid=rendered-div] input');
                 expect(renderedInput).not.toBe(true);
                 expect(renderedInput.value).toBe(inputValue);
+                done();
             })();
         });
     });
